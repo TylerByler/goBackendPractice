@@ -1,0 +1,89 @@
+:root {
+    --mtblue: #253f8e;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* UTILITIES */
+.column-titles-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: .5rem;
+}
+
+.column-title {
+    border: 0.1rem solid var(--mtblue);
+    width: 100%;
+    font-size: 1.3rem;
+    font-weight: 550;
+    padding: 1rem 0;
+    margin: -0.05rem;
+    color: white;
+    background-color: var(--mtblue);
+}
+
+.left-title {
+    border-radius: 0.5rem 0 0 0;
+}
+
+.right-title {
+    border-radius: 0 0.5rem 0 0;
+}
+
+.order-container {
+    display:flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.order-column {
+    width:100%;
+    font-size: 1.2rem;
+    border: 0.1rem solid #253f8e;
+    margin: -0.05rem;
+    padding: 1rem 0;
+    background-color: white;
+}
+
+.order-drawer-layer {
+    position: absolute;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    margin: 0 auto;
+    padding: 2rem;
+    z-index: 10000;
+    top: 0;
+    left: 0;
+}
+
+.order-drawer {
+    width: 100%;
+    height: 100%;
+    background-color: grey;
+}
+
+.logobox-container {
+    display: flex;
+    flex-direction: row;
+    width:100%;
+}
+
+.logobox-styler {
+    width: 100%;
+    background-color: white;
+    margin-bottom: 1rem;
+    border-radius: 0 0 2rem 0;
+}
+
+.logobox {
+    border-radius: 2rem 2rem 0 0;
+}
+
+.logobox > img {
+    border-radius: 2rem 2rem 0 0;
+}

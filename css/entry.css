@@ -1,0 +1,54 @@
+.form-header {
+    width: inherit;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 2rem;
+}
+
+.form-header > p {
+    color: white;
+    background-color: #253f8e;
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.hidden > * > p {
+    display: none;
+}
+
+form > .general-wrapper > .label-wrapper {
+    margin:0 -0.15rem 0 0;
+}
+
+.label-wrapper {
+    background-color: var(--mtblue);
+    border-radius: 0.5rem;
+    padding: 0.7rem 0 0 0;
+    margin: 0.5rem;
+    width: 100%;
+}
+
+.label-wrapper > label {
+    color: white;
+}
+
+.mid-column {
+    border-radius: 0;
+}
+
+.left-end {
+    border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.right-end {
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.changeEntry {
+    min-width: 0;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    margin: 0 0.2rem 0.2rem 0.2rem;
+}

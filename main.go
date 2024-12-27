@@ -23,7 +23,8 @@ func sayHelloName(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("value: ", strings.Join(value, ""))
 	}
 
-	fmt.Fprintf(w, "Hello astaxie!")
+	t, _ := template.ParseFiles("index.html")
+	t.Execute(w, nil)
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
