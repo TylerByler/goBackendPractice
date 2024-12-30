@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order #{{.InvoiceNumber}}</title>
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/orders.css">
+</head>
+<body>
+    <a href="index.php" class="homeButton">HOME</a>
+    <div class="container flex-column justify-center text-center">
+        <h1>ORDER #{{.InvoiceNumber}}</h1>
+        <!-- INSERT HTML USING RESULTS FROM DB -->
+            {{if .Empty}} 
+                <h2>No Results</h2>
+            {{else}}
+                <div class="column-titles-container">
+                    <div class="column-title left-title">Product #</div>
+                    <div class="column-title">Product Description</div>
+                    <div class="column-title">Color of Product</div>
+                    <div class="column-title">Design #</div>
+                    <div class="column-title">Font</div>
+                    <div class="column-title right-title">Engraving Description</div>
+                </div>
+                {{range .Engravings}}
+                    <div class="order-container">
+                        <div class=order-column>  </div>
+                        <div class=order-column>  </div>
+                        <div class=order-column>  </div>
+                        <div class=order-column>  </div>
+                        <div class=order-column>  </div>
+                        <div class=order-column>  </div>
+                    </div>
+                {{end}}
+            {{end}}
+    </div>
+    
+    <div id="logobox"><img src="images/logo.png"></div>
+</body>
+</html>
