@@ -26,12 +26,12 @@
                 </div>
                 {{range .Engravings}}
                     <div class="order-container">
-                        <div class=order-column>  </div>
-                        <div class=order-column>  </div>
-                        <div class=order-column>  </div>
-                        <div class=order-column>  </div>
-                        <div class=order-column>  </div>
-                        <div class=order-column>  </div>
+                        <div class=order-column> {{.ProductNumber}} </div>
+                        <div class=order-column> {{.ProductDescription}} </div>
+                        <div class=order-column> {{.ProductColor}} </div>
+                        <div class=order-column> {{.DesignNumber}} </div>
+                        <div class=order-column> {{.Font}} </div>
+                        <div class=order-column> {{.EngravingDescription}} </div>
                     </div>
                 {{end}}
             {{end}}

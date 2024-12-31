@@ -12,6 +12,23 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+type Order struct {
+	Invoice         float32
+	SalespersonName string
+	Date            string
+	Empty           bool
+	Engravings      []Engraving
+}
+
+type Engraving struct {
+	ProductNumber        string
+	ProductDescription   string
+	ProductColor         string
+	DesignNumber         string
+	Font                 string
+	EngravingDescription string
+}
+
 func homepage(w http.ResponseWriter, r *http.Request) {
 	// fmt.Println("method:", r.Method)
 	t, _ := template.ParseFiles("index.html")
@@ -70,6 +87,10 @@ func entryPage(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func orderPage(w http.ResponseWriter, r *http.Request) {
+
+}
+
 func checkErr(err error) {
 	if err != nil {
 		panic(err)
@@ -108,6 +129,7 @@ func main() {
 	http.HandleFunc("/", homepage)
 	/* http.HandleFunc("/login", login) */
 	http.HandleFunc("/entry", entryPage)
+	http.HandleFunc("/orders", orderPage)
 
 	err := http.ListenAndServe(":9090", nil)
 	if err != nil {
