@@ -2,15 +2,30 @@ package main
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"html/template"
+	"io"
 	"log"
 	"net/http"
+	"os"
 	"reflect"
 	"strconv"
 
 	_ "github.com/go-sql-driver/mysql"
 )
+
+type SQLInfo struct {
+	Address  string `json:"address"`
+	DBname   string `json:"dbname"`
+	User     string `json:"user"`
+	Password string `json:"password"`
+}
+
+type OrderList struct {
+	Empty  bool
+	Orders []Order
+}
 
 type Order struct {
 	Invoice         float32
@@ -41,7 +56,7 @@ func entryPage(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 
 		// <----SQL---->
-		db, err := sql.Open("mysql", "root:@tcp(localhost:3306)/millertech_engraving?charset=utf8")
+		db, err := openDB()
 		checkErr(err)
 
 		// Create order in order table
@@ -87,8 +102,48 @@ func entryPage(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func orderPage(w http.ResponseWriter, r *http.Request) {
+func orderListPage(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("method:", r.Method)
+	if r.Method == "GET" {
+		db, err := openDB()
+		checkErr(err)
 
+		rows, err := db.Query("SELECT * FROM orders ORDER BY `orders`.`creation_date` DESC LIMIT 50;")
+		checkErr(err)
+
+		var orderList OrderList
+		orderList.Empty = true
+
+		for rows.Next() {
+			var order Order
+			err := rows.Scan(&order.Invoice, &order.SalespersonName, &order.Date)
+			checkErr(err)
+			orderList.Empty = false
+
+			orderList.Orders = append(orderList.Orders, order)
+		}
+
+		fmt.Println(orderList)
+
+		t, _ := template.ParseFiles("orderList.html")
+		t.Execute(w, orderList)
+	}
+}
+
+func openDB() (*sql.DB, error) {
+	jsonFile, err := os.Open("sql.info.json")
+	checkErr(err)
+
+	jsonValue, err := io.ReadAll(jsonFile)
+	checkErr(err)
+
+	var sqlinfo SQLInfo
+	json.Unmarshal(jsonValue, &sqlinfo)
+
+	sqlLogin := sqlinfo.User + ":" + sqlinfo.Password + "@tcp(" + sqlinfo.Address + ")/" + sqlinfo.DBname + "?charset=utf8"
+	fmt.Println("Sql Login info: ", sqlLogin)
+
+	return sql.Open("mysql", sqlLogin)
 }
 
 func checkErr(err error) {
@@ -129,7 +184,7 @@ func main() {
 	http.HandleFunc("/", homepage)
 	/* http.HandleFunc("/login", login) */
 	http.HandleFunc("/entry", entryPage)
-	http.HandleFunc("/orders", orderPage)
+	http.HandleFunc("/orders", orderListPage)
 
 	err := http.ListenAndServe(":9090", nil)
 	if err != nil {

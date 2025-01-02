@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order List</title>
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/orders.css">
+</head>
+<body>
+    <a href="/" class="homeButton">HOME</a>
+    <div class="container flex-column justify-center text-center">
+        <h1>Orders</h1>
+        <!-- INSERT HTML USING RESULTS FROM DB -->
+        
+        {{if .Empty}}
+            <h2>No Results</h2>
+        {{else}}
+            <div class="column-titles-container">
+                <div class="column-title left-title">Invoice #</div>
+                <div class="column-title">Salesperson</div>
+                <div class="column-title right-title">Date Created</div>
+            </div>
+            {{range .Orders}}
+                <a href="selectedorder.php?invoice={{.InvoiceNumber}}" class="order-link">
+                    <div class=order-container>
+                        <div class="order-column"> {{.InvoiceNumber}} </div>
+                        <div class="order-column"> {{.SalespersonName}} </div>
+                        <div class="order-column"> {{.Date}} </div>
+                    </div>
+                </a>
+            {{end}}
+        {{end}}
+    </div>
+    
+    <div id="logobox"><img src="images/logo.png"></div>
+
+    <!-- <div class="order-drawer-layer">
+        <div class="order-drawer">
+            <div class="logobox-container">
+                <div class="logobox-styler"></div>
+                <div class="logobox"><img src="images/logo.png"/></div>
+            </div>
+        </div>
+    </div> -->
+</body>
+</html>
