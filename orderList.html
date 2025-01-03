@@ -22,13 +22,14 @@
                 <div class="column-title right-title">Date Created</div>
             </div>
             {{range .Orders}}
-                <a href="selectedorder.php?invoice={{.InvoiceNumber}}" class="order-link">
+                <div>{{.}}</div>
+               <!--  <a href="selectedorder.php?invoice={{.InvoiceNumber}}" class="order-link">
                     <div class=order-container>
                         <div class="order-column"> {{.InvoiceNumber}} </div>
                         <div class="order-column"> {{.SalespersonName}} </div>
                         <div class="order-column"> {{.Date}} </div>
                     </div>
-                </a>
+                </a> -->
             {{end}}
         {{end}}
     </div>

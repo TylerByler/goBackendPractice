@@ -113,6 +113,7 @@ func orderListPage(w http.ResponseWriter, r *http.Request) {
 
 		var orderList OrderList
 		orderList.Empty = true
+		tempSlice := make([]Order, 0)
 
 		for rows.Next() {
 			var order Order
@@ -120,8 +121,10 @@ func orderListPage(w http.ResponseWriter, r *http.Request) {
 			checkErr(err)
 			orderList.Empty = false
 
-			orderList.Orders = append(orderList.Orders, order)
+			tempSlice = append(tempSlice, order)
 		}
+
+		orderList.Orders = tempSlice
 
 		fmt.Println(orderList)
 
