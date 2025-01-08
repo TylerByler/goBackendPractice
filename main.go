@@ -8,6 +8,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"reflect"
 	"strconv"
@@ -36,6 +37,7 @@ type Order struct {
 }
 
 type Engraving struct {
+	Invoice              float32
 	ProductNumber        string
 	ProductDescription   string
 	ProductColor         string
@@ -127,9 +129,57 @@ func orderListPage(w http.ResponseWriter, r *http.Request) {
 		orderList.Orders = tempSlice
 
 		fmt.Println(orderList)
+		fmt.Println("Type Of \"orderlist\":", reflect.TypeOf(orderList).Kind())
+		fmt.Println("Type Of \"orderlist.Orders\":", reflect.TypeOf(orderList.Orders).Kind())
 
 		t, _ := template.ParseFiles("orderList.html")
 		t.Execute(w, orderList)
+	}
+}
+
+func selectedOrderPage(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "GET" {
+		params, _ := url.ParseQuery(r.URL.RawQuery)
+		fmt.Println("Parameters: ", params)
+
+		invoice_number := params.Get("invoice")
+		fmt.Println("INVOICE_NUMBER: ", invoice_number)
+
+		db, err := openDB()
+		checkErr(err)
+
+		rows, err := db.Query("SELECT * FROM discrete_engravings WHERE `invoice_number` =" + invoice_number + ";")
+		checkErr(err)
+
+		orderInfo, err := db.Query("SELECT * FROM orders WHERE `invoice_number` =" + invoice_number + ";")
+		checkErr(err)
+
+		var order Order
+		if orderInfo != nil {
+			orderInfo.Scan(&order.Invoice, &order.SalespersonName, &order.Date)
+		}
+
+		for rows.Next() {
+			var engraving Engraving
+			err := rows.Scan(
+				&engraving.Invoice,
+				&engraving.ProductNumber,
+				&engraving.ProductDescription,
+				&engraving.ProductColor,
+				&engraving.DesignNumber,
+				&engraving.Font,
+				&engraving.EngravingDescription)
+			checkErr(err)
+
+			order.Engravings = append(order.Engravings, engraving)
+		}
+
+		fmt.Println(order)
+		fmt.Println("Type Of \"orderlist\":", reflect.TypeOf(order).Kind())
+		fmt.Println("Type Of \"orderlist.Orders\":", reflect.TypeOf(order.Engravings).Kind())
+
+		t, _ := template.ParseFiles("selectedOrder.html")
+		t.Execute(w, order)
 	}
 }
 
@@ -188,6 +238,7 @@ func main() {
 	/* http.HandleFunc("/login", login) */
 	http.HandleFunc("/entry", entryPage)
 	http.HandleFunc("/orders", orderListPage)
+	http.HandleFunc("/selectedorder", selectedOrderPage)
 
 	err := http.ListenAndServe(":9090", nil)
 	if err != nil {
