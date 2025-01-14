@@ -41,39 +41,6 @@ addEntry.addEventListener("click", () => {
     newElement.setAttribute("name", `entry${numEntries}`);
     newElement.setAttribute("class", "general-wrapper");
 
-    /*newElement.innerHTML = `
-                                <div class="label-wrapper left-end">
-                                    <label for="product_number${numEntries}">Product #
-                                        <input type="text" name="product_number${numEntries}" id="product_number${numEntries}">
-                                    </label>
-                                </div>
-                                <div class="label-wrapper mid-column">
-                                    <label for="product_desc${numEntries}">Product Description
-                                        <input type="text" name="product_desc${numEntries}" id="product_desc${numEntries}">
-                                    </label>
-                                </div>
-                                <div class="label-wrapper mid-column">
-                                    <label for="color${numEntries}">Color
-                                        <input type="text" name="color${numEntries}" id="color${numEntries}">
-                                    </label>
-                                </div>
-                                <div class="label-wrapper mid-column">
-                                    <label for="design_number${numEntries}">Design #
-                                        <input type="text" name="design_number${numEntries}" id="design_number${numEntries}">
-                                    </label>
-                                </div>
-                                <div class="label-wrapper mid-column">
-                                    <label for="font${numEntries}">Font
-                                        <input type="text" name="font${numEntries}" id="font${numEntries}">
-                                    </label>
-                                </div>
-                                <div class="label-wrapper right-end">
-                                    <label for="engraving_desc${numEntries}">Engraving Description
-                                        <input type="text" name="engraving_desc${numEntries}" id="engraving_desc${numEntries}">
-                                    </label>
-                                </div>
-                            `; */
-
     newElement.innerHTML = `
                                 <div class="label-wrapper left-end">
                                     <label for="product_number[]">Product #
@@ -120,9 +87,3 @@ removeEntry.addEventListener("click", () => {
     numEntries--;
     entryInput.value = numEntries;
 });
-
-printValues = () => {
-    console.log("Print New Values")
-    console.log(invoice_number.value);
-    console.log(salesperson_name.value);
-}

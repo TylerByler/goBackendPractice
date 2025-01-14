@@ -37,7 +37,7 @@ type Order struct {
 }
 
 type Engraving struct {
-	Invoice              float32
+	Invoice              string
 	ProductNumber        string
 	ProductDescription   string
 	ProductColor         string
@@ -155,8 +155,12 @@ func selectedOrderPage(w http.ResponseWriter, r *http.Request) {
 		checkErr(err)
 
 		var order Order
-		if orderInfo != nil {
-			orderInfo.Scan(&order.Invoice, &order.SalespersonName, &order.Date)
+		for orderInfo.Next() {
+			var tmpOrder Order
+			orderInfo.Scan(&tmpOrder.Invoice, &tmpOrder.SalespersonName, &tmpOrder.Date)
+
+			order = tmpOrder
+			order.Empty = false
 		}
 
 		for rows.Next() {
